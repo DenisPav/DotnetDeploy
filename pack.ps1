@@ -1,0 +1,1 @@
+dotnet pack ./src/DotnetDeploy/DotnetDeploy.csproj -o ../../artifacts
