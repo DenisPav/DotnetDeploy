@@ -16,9 +16,21 @@ namespace DotnetDeploy
 
         static void Main(string[] args)
         {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "deploy.json");
+            if (!File.Exists(path))
+                throw new Exception($"File: {path} doesn't exist!");
+            
+            var configFile = JSON.Deserialize<JsonConfig>(File.ReadAllText(path), new Options(serializationNameFormat: SerializationNameFormat.CamelCase));
+
             Container = ServiceCollectionBuilder.CreateWith(services => {
-                services.AddSingleton<ConnectionInfo>(_ => new ConnectionInfo("", "", new PasswordAuthenticationMethod("", "")));
+                services.AddSingleton<JsonConfig>(configFile);
+                services.AddSingleton<ConnectionInfo>(_ => {
+                    var config = _.GetRequiredService<JsonConfig>();
+
+                    return new ConnectionInfo(config.Host, config.Username, new PasswordAuthenticationMethod(config.Username, config.Password));
+                });
                 services.AddTransient<SftpClient>();
+                services.AddTransient<SshClient>();
                 services.AddTransient<FileService>();
             }).BuildServiceProvider();
 
@@ -26,13 +38,8 @@ namespace DotnetDeploy
                 .AddCommandLine(args)
                 .Build();
 
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "deploy.json");
-
-            if (File.Exists(path))
-            {
-                var config = JSON.Deserialize<object>(File.ReadAllText(path), new Options(serializationNameFormat: SerializationNameFormat.CamelCase));
-
-            }
+            Container.GetRequiredService<FileService>()
+                .Upload();
         }
     }
 }
