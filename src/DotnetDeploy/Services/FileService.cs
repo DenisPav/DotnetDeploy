@@ -19,12 +19,12 @@ namespace DotnetDeploy.Services
         public void Upload()
         {
             Client.Connect();
-            Client.CreateDirectory("./app");
-            Client.ChangeDirectory("./app");
+            Client.CreateDirectory(Config.HostDirectory);
+            Client.ChangeDirectory(Config.HostDirectory);
 
             var dir = new DirectoryInfo(Config.TargetDir)
                 .GetFiles("*", SearchOption.AllDirectories)
-                .Select(file => new { file.FullName, Name = $"{file.Name}.{file.Extension}" })
+                .Select(file => new { file.FullName, Name = file.Name })
                 .ToList();
 
             dir.ForEach(file =>

@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Renci.SshNet;
 using System;
 using System.IO;
-using System.Linq;
 
 namespace DotnetDeploy
 {
@@ -19,11 +18,9 @@ namespace DotnetDeploy
             var path = Path.Combine(Directory.GetCurrentDirectory(), "deploy.json");
             if (!File.Exists(path))
                 throw new Exception($"File: {path} doesn't exist!");
-            
-            var configFile = JSON.Deserialize<JsonConfig>(File.ReadAllText(path), new Options(serializationNameFormat: SerializationNameFormat.CamelCase));
 
             Container = ServiceCollectionBuilder.CreateWith(services => {
-                services.AddSingleton<JsonConfig>(configFile);
+                services.AddSingleton<JsonConfig>(_ => JSON.Deserialize<JsonConfig>(File.ReadAllText(path), new Options(serializationNameFormat: SerializationNameFormat.CamelCase)));
                 services.AddSingleton<ConnectionInfo>(_ => {
                     var config = _.GetRequiredService<JsonConfig>();
 
