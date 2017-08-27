@@ -22,20 +22,41 @@ namespace DotnetDeploy.Services
             Client.CreateDirectory(Config.HostDirectory);
             Client.ChangeDirectory(Config.HostDirectory);
 
-            var dir = new DirectoryInfo(Config.TargetDir)
-                .GetFiles("*", SearchOption.AllDirectories)
-                .Select(file => new { file.FullName, Name = file.Name })
-                .ToList();
+            var dir = new DirectoryInfo(Config.TargetDir);
 
-            dir.ForEach(file =>
-            {
-                using (var stream = File.OpenRead(file.FullName))
-                {
-                    Client.UploadFile(stream, file.Name);
-                }
-            });
+            CreateDirs(dir);
 
             Client.Disconnect();
         }
+
+        private void CreateDirs(DirectoryInfo root)
+        {
+            var subDirs = root.GetDirectories();
+
+            UploadDirContents(root);
+
+            if (subDirs.Length == 0)
+                return;
+
+            foreach (var subDir in subDirs)
+            {
+                Client.CreateDirectory(subDir.Name);
+                Client.ChangeDirectory(subDir.Name);
+
+                UploadDirContents(subDir);
+
+                CreateDirs(subDir);
+                Client.ChangeDirectory("../");
+            }
+        }
+
+        private void UploadDirContents(DirectoryInfo dir)
+            => dir.GetFiles("*", SearchOption.TopDirectoryOnly)
+                .ToList()
+                .ForEach(file =>
+                {
+                    using (var stream = File.OpenRead(file.FullName))
+                        Client.UploadFile(stream, file.Name);
+                });
     }
 }
