@@ -1,5 +1,7 @@
 ﻿using DotnetDeploy.Config;
+using DotnetDeploy.Extensions;
 using Renci.SshNet;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -9,27 +11,28 @@ namespace DotnetDeploy.Services
     {
         private SftpClient Client { get; set; }
         private JsonConfig Config { get; set; }
+        private SshClient SshClient { get; set; }
 
-        public FileService(SftpClient client, JsonConfig config)
+        public FileService(SftpClient client, JsonConfig config, SshClient sshClient)
         {
             this.Client = client;
             this.Config = config;
+            this.SshClient = sshClient;
         }
 
         public void Upload()
         {
-            Client.Connect();
             Client.CreateDirectory(Config.HostDirectory);
             Client.ChangeDirectory(Config.HostDirectory);
 
-            var dir = new DirectoryInfo(Config.TargetDir);
+            CreateOutputDirs(new DirectoryInfo(Config.TargetDir));
 
-            CreateDirs(dir);
-
-            Client.Disconnect();
+            var command = SshClient.CreateCommand(Config.EndCommand);
+            command.CommandTimeout = TimeSpan.FromSeconds(Config.CommandTimeout.HasValue ? Config.CommandTimeout.Value : 2);
+            this.TryCatchExecute(() => command.Execute());
         }
 
-        private void CreateDirs(DirectoryInfo root)
+        private void CreateOutputDirs(DirectoryInfo root)
         {
             var subDirs = root.GetDirectories();
 
@@ -45,7 +48,7 @@ namespace DotnetDeploy.Services
 
                 UploadDirContents(subDir);
 
-                CreateDirs(subDir);
+                CreateOutputDirs(subDir);
                 Client.ChangeDirectory("../");
             }
         }

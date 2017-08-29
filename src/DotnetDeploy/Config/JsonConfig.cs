@@ -7,5 +7,7 @@
         public string Username { get; set; }
         public string Password { get; set; }
         public string TargetDir { get; set; }
+        public string EndCommand { get; set; }
+        public int? CommandTimeout { get; set; }
     }
 }

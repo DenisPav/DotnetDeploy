@@ -26,8 +26,8 @@ namespace DotnetDeploy
 
                     return new ConnectionInfo(config.Host, config.Username, new PasswordAuthenticationMethod(config.Username, config.Password));
                 });
-                services.AddTransient<SftpClient>();
-                services.AddTransient<SshClient>();
+                services.AddTransient<SftpClient>(_ => { var instance = new SftpClient(_.GetRequiredService<ConnectionInfo>()); instance.Connect(); return instance; });
+                services.AddTransient<SshClient>(_ => { var instance = new SshClient(_.GetRequiredService<ConnectionInfo>()); instance.Connect(); return instance; });
                 services.AddTransient<FileService>();
             }).BuildServiceProvider();
 
