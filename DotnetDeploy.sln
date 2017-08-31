@@ -6,10 +6,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E52D7252-773
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetDeploy", "src\DotnetDeploy\DotnetDeploy.csproj", "{6B80A874-EF49-479A-86D4-7743D59FE0AD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{70EDD29A-FF3A-494A-B977-98E2691B48A0}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetDeploySample", "samples\DotnetDeploySample\DotnetDeploySample.csproj", "{0C80A0D8-B711-45CA-9F5E-3298F3D0D53B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,25 +28,12 @@ Global
 		{6B80A874-EF49-479A-86D4-7743D59FE0AD}.Release|x64.Build.0 = Release|Any CPU
 		{6B80A874-EF49-479A-86D4-7743D59FE0AD}.Release|x86.ActiveCfg = Release|Any CPU
 		{6B80A874-EF49-479A-86D4-7743D59FE0AD}.Release|x86.Build.0 = Release|Any CPU
-		{0C80A0D8-B711-45CA-9F5E-3298F3D0D53B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C80A0D8-B711-45CA-9F5E-3298F3D0D53B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0C80A0D8-B711-45CA-9F5E-3298F3D0D53B}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0C80A0D8-B711-45CA-9F5E-3298F3D0D53B}.Debug|x64.Build.0 = Debug|Any CPU
-		{0C80A0D8-B711-45CA-9F5E-3298F3D0D53B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0C80A0D8-B711-45CA-9F5E-3298F3D0D53B}.Debug|x86.Build.0 = Debug|Any CPU
-		{0C80A0D8-B711-45CA-9F5E-3298F3D0D53B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0C80A0D8-B711-45CA-9F5E-3298F3D0D53B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0C80A0D8-B711-45CA-9F5E-3298F3D0D53B}.Release|x64.ActiveCfg = Release|Any CPU
-		{0C80A0D8-B711-45CA-9F5E-3298F3D0D53B}.Release|x64.Build.0 = Release|Any CPU
-		{0C80A0D8-B711-45CA-9F5E-3298F3D0D53B}.Release|x86.ActiveCfg = Release|Any CPU
-		{0C80A0D8-B711-45CA-9F5E-3298F3D0D53B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6B80A874-EF49-479A-86D4-7743D59FE0AD} = {E52D7252-773E-46CA-8D32-0CE47FAA6874}
-		{0C80A0D8-B711-45CA-9F5E-3298F3D0D53B} = {70EDD29A-FF3A-494A-B977-98E2691B48A0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7182B0F8-8620-4366-B074-84D2410A8219}

@@ -3,5 +3,7 @@
     "hostDirectory": "",
     "username": "",
     "password": "",
-    "targetDir": ""
+    "targetDir": "",
+    "endCommand": "",
+    "commandTimeout": ""
 }

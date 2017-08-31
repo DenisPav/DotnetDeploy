@@ -1,8 +1,8 @@
 ﻿using DotnetDeploy.Config;
 using DotnetDeploy.Services;
-using Jil;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using Renci.SshNet;
 using System;
 using System.IO;
@@ -20,7 +20,7 @@ namespace DotnetDeploy
                 throw new Exception($"File: {path} doesn't exist!");
 
             Container = ServiceCollectionBuilder.CreateWith(services => {
-                services.AddSingleton<JsonConfig>(_ => JSON.Deserialize<JsonConfig>(File.ReadAllText(path), new Options(serializationNameFormat: SerializationNameFormat.CamelCase)));
+                services.AddSingleton<JsonConfig>(_ => JsonConvert.DeserializeObject<JsonConfig>(File.ReadAllText(path)));
                 services.AddSingleton<ConnectionInfo>(_ => {
                     var config = _.GetRequiredService<JsonConfig>();
 

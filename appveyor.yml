@@ -1,0 +1,21 @@
+version: 1.0.{build}
+branches:
+  only:
+    - master
+skip_tags: true
+skip_branch_with_pr: true
+os: Visual Studio 2017
+test: off
+build_script:
+  - ps: .\pack.ps1
+artifacts:  
+  - path: .\artifacts\**\*.nupkg
+    name: NuGet
+deploy:  
+  - provider: NuGet
+    server: https://www.myget.org/F/dotnetdeploy/api/v2/package
+    api_key:
+      secure: bTqfwGt4g8P5Ih/FR2xd3CUij9a/BvfRi6skax7gPYNs97mFkUlfOrAUxfI4Gte1
+    skip_symbols: true
+    on:
+      branch: master
